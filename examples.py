@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import statsmodels.formula.api as smf
+from statsmodels.formula.api import ols
 import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
@@ -72,7 +73,11 @@ print("The log_likelihood's maximum coordinates are ",d.iloc[d['z'].idxmax()])
 
 #%%
 #Linear regression with our data
-#----------------------------------------
+#---------------------------------------
+linear = ols('Resp~Treat',data=df).fit()
+print(linear.summary())
+#We have the value of alpha = 9 and mu = 6.5
+
 linear_reg = sm.OLS(df.Resp, df.Treat)
 linear_reg_fit = linear_reg.fit()
 print(linear_reg_fit.summary())
@@ -80,6 +85,7 @@ print(linear_reg_fit.summary())
 #We find the same coordinates of the log_likelihood when we use the linear regression
 #than when we use the graph
 #So we see that the variance is biased with linear regression
+#Besides, We have the fixed value for our alpha and mu : respectively 15.5 =(6.5+9) and 6.5
 
 #%%
 #Linear mixed regression with our data
