@@ -106,7 +106,7 @@ print(mixed_fit.summary())
 
 
 #%%
-#Comparison xith our calculations
+#Comparison with our calculations
 #-------------------------------------
 def f(x):
    sigma = x[0]

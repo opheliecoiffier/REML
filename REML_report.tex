@@ -19,6 +19,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hyperlinks
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \PassOptionsToPackage{hyphens}{url}
@@ -148,30 +149,51 @@ That's why, we use the REML method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Solve the bias problem}
-The main issue is that we use an unknown estimator for the mean. The principle that we'll use is : if the log-likelihood has any information about the mean, we can optimize it and find a unbiased variance estimator.\\
+\begin{exemple}
+The main issue is that we use an unknown estimator for the mean. The principle that we will use is : if the log-likelihood has any information about the mean, we can optimize it and find a unbiased variance estimator.\\
 \begin{itemize}
-    \item First step : integrate the log-likelihood in relation to $\mu$. This parameter will be remove of the equation.
+    \item First step : integrate the likelihood in relation to $\mu$ and calculate the log of this integration. The parameter $\mu$ will be remove of the equation.
     \item Second step : use Taylor development in the log-likelihood to simplify the formula. 
     \item Third step : separate the formula in $2$ parts (the log-likelihood use in the maximum likelihood and the bias, the REML approach).
     \item Fourth step : finish previous calculations to find the unbiased estimator.
 \end{itemize}
 
-\begin{exemple}
+\begin{exemple} 
+We continue with the previous example (the Normal distribution and $\beta \in \bbR^{2\times 2}$). The likelihood is
+\[L(\beta, \sigma_s^2, \sigma^2) = \frac{1}{\sqrt{2\pi |\Sigma_y|}}e^{-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}}\]
+where $\sigma_s^2$ is random variance effects, $\sigma^2$ is residual effects and $|\Sigma_y|$ is the variance-covariance matrix.\\
+First step :
+\[log(\int \L(\beta, \Sigma_y)d\beta) = -\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)+log(\int e^{-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}} d\beta)\]
+We write out $f(\beta) = -\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}$ and we use the Taylor development formula : \\
+$f(\beta) \approx f(\hat{\beta}) + \frac{1}{2}(\beta - \hat{\beta})^2f''(\hat{\beta})$\\
+Therefore, we obtain :
+\[f(\beta) \approx -\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}-\frac{1}{2}\frac{\trans{(\beta-\hat{\beta})} \trans{X} \Sigma_y^{-1}X (\beta-\hat{\beta})}{2}\]
 
+So, the new log-likelihood is :
+\begin{equation*}
+    \begin{split}
+       log(\int L(\beta, \Sigma_y)d\beta) = -\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)+log(\int e^{-\frac{1}{2}\frac{\trans{(\beta-\hat{\beta})} \trans{X} \Sigma_y^{-1}X (\beta-\hat{\beta})}{2} d\beta}) -\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}\\
+       =-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2} - \frac{1}{2}log(|\trans{X}\Sigma_y^{-1}X|)  
+    \end{split}
+\end{equation*}
+We recognize the solution of the Maximum Likelihood
+\[-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}\]
+And we have the REML approach (the bias) : \[- \frac{1}{2}log(|\trans{X} \Sigma_y^{-1}X|\]
+\end{exemple}
+In the first part of the document, we have seen an applied example. It shows us how the fee affects the mixt linear model.
 \end{exemple}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pour aller plus loin sur ce thème}
+\section{Deal with linear models in depth}
 \label{sec:pour_aller_plus_loin_sur_ce_theme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Parmi les livres intéressant on notera aussi:
-\cite{Boyd_Vandenberghe04}, \cite{Beck17}
-
+We can read this article ans this lesson to learn more about the REML and the linear regression model:
+\cite{SITE}, \cite{Teaching}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{alpha}
