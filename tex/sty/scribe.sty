@@ -113,3 +113,55 @@
 \definecolor{vsomb_col}{rgb}{0.00,0.57,0.1}
 \definecolor{fb_col}{rgb}{0.25,0.41,0.88}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Codes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[procnames]{listings}
+% \usepackage{setspace} % need for \setstretch{1}
+\lstset{%
+language   = python,%
+ % basicstyle = \ttfamily\setstretch{1},%
+basicstyle = \ttfamily,%
+columns    = flexible,%
+keywordstyle=\color{javared},
+firstnumber=100,
+frame=shadowbox,
+showstringspaces=false,
+morekeywords={import,from,class,def,for,while,if,is,in,elif,
+else,not,and,or,print,break,continue,return,True,False,None,access,
+as,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert,!=},
+keywordstyle={\color{javared}\bfseries},
+commentstyle=\color{javagreen}, %vsomb_col white comments
+morecomment=[s][\color{javagreen}]{"""}{"""},
+upquote=true,
+%% style for number
+numbers=none,
+resetmargins=true,
+xleftmargin=10pt,
+linewidth= \linewidth,
+numberstyle=\tiny,
+stepnumber=1,
+numbersep=8pt, %
+frame=shadowbox,
+rulesepcolor=\color{black},
+procnamekeys={def,class},
+procnamestyle=\color{oneblue}\textbf,
+literate={á}{{\'a}}1
+{à}{{\`a }}1
+{ã}{{\~a}}1
+{é}{{\'e}}1
+{ê}{{\^e}}1
+{è}{{\`e}}1
+{í}{{\'i}}1
+{î}{{\^i}}1
+{ó}{{\'o}}1
+{õ}{{\~o}}1
+{ô}{{\^o}}1
+{ú}{{\'u}}1
+{ü}{{\"u}}1
+{ç}{{\c{c}}}1
+}
+
+
+

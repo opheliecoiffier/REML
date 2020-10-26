@@ -6,8 +6,6 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import scipy as sp
 import numpy as np
-from scipy.optimize import minimize
-
 
 #%%
 #################################
@@ -117,7 +115,14 @@ def f(x):
    y12 = 10
    y21 = 6
    y22 = 25
-   return(-(1/2)*np.log(4*sigmas**4*sigma**4 + 4*sigmas**2*sigma**6 + sigma**8) -(1/2)*np.log(4/((sigma**2)*(sigma**2+2*sigmas**2)))- (1/2)*(1/((sigma**2)*(sigma**2+2*sigmas**2)))*(((y11-beta1)**2)*(sigma**2+sigmas**2) - 2*(y11-beta1)*(y21-beta2)*(sigmas**2) + ((y21-beta2)**2)*(sigma**2+sigmas**2) + ((y12-beta1)**2)*(sigma**2+sigmas**2) - 2*(y12-beta1)*(y22-beta2)*(sigmas**2) + ((y22-beta2)**2)*(sigma**2+sigmas**2)))
+   return(-(1/2)*np.log(4*sigmas**4*sigma**4 +
+                        4*sigmas**2*sigma**6 + sigma**8) -(1/2)*np.log(4/((sigma**2)*(sigma**2+2*sigmas**2)))- 
+          (1/2)*(1/((sigma**2)*(sigma**2+2*sigmas**2)))*(((y11-beta1)**2)*(sigma**2+sigmas**2) - 
+                                                         2*(y11-beta1)*(y21-beta2)*(sigmas**2) + 
+                                                         ((y21-beta2)**2)*(sigma**2+sigmas**2) + 
+                                                         ((y12-beta1)**2)*(sigma**2+sigmas**2) - 
+                                                         2*(y12-beta1)*(y22-beta2)*(sigmas**2) + 
+                                                         ((y22-beta2)**2)*(sigma**2+sigmas**2)))
 
 nb = []
 x=1.0

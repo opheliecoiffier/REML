@@ -15,7 +15,7 @@
 \usepackage{ulem, stmaryrd, dsfont}
 
 % \usepackage{mathabx} % for \vvvert ||| |||
-\usepackage{./sty/scribe}
+\usepackage{./tex/sty/scribe}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hyperlinks
@@ -54,8 +54,13 @@ Then, we will mathematically explain and solve the problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Illustration of our problem}
 In the first part, we illustrate the variance problem with an example. 
-%AFFICHER GRPAHE PYTHON
-The Figure 1 shows us the difference between an unbiased Normal distribution and a biased Normal distribution. We see that the mean and the variance are different.
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[scale=0.7]{./images/Biased_normal_distri.pdf}
+    \caption{Difference between biased Normal distribution and Unbiased Normal distribution.}
+    \end{center}
+\end{figure}
+The Figure 1 shows us the difference between an unbiased Normal distribution and a biased Normal distribution. We see that the mean and the variance are different.\\
 Now, we use real data.\\
 \begin{table}[h!]
         \centering
@@ -83,12 +88,53 @@ The model uses in linear mixed effects is :
     Y_{Resp} = \mu + \alpha X_{Treat}  + \beta X_{Ind} +\varepsilon
 \end{equation*}
 When we compare the log-likelihood with both methods, we don't obtain the same result.
-With the linear regression, we have $-14.23$ (we can observe this in the Firgure 2) while the linear mixed regression (REML) we find $-7.00$.\\
-%AFFICHER GRAPHE LOG LIKELIHOOD 
+With the linear regression, we have $-14.23$ (we can observe this in the Firgure 2, at the point $(8, -14.23)$) while the linear mixed regression (REML) we find $-7.89$.\\
 \begin{remark}
-\textit{The code is available in the repository called REML}
+\textit{The code is available in the repository called REML but we notice lines we use to show the log-likelihood comparison}
 \end{remark}
+\begin{lstlisting}
+  linear_reg = sm.OLS(df.Resp, df.Treat)
+  linear_reg_fit = linear_reg.fit()
+  linear_reg_fit.summary()
+\end{lstlisting}
+\begin{lstlisting}
+    mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
+    mixed_fit = mixed_random.fit()
+    mixed_fit.summary() 
+\end{lstlisting}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{./images/Log_likelihood.pdf}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.8\textwidth}
+        \includegraphics[width=\textwidth]{./images/OLS_Regression.pdf}
+    \end{subfigure}
+    \caption{The log-likelihood using linear regression depending on $\sigma$ and the result of the linear regression with Python function. }
+\end{figure}
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.3]{./images/REML_regression.pdf}
+        \caption{The log-likelihood using REML regression.}
+    \end{center}
+\end{figure}
+Moreover, we notice the different value of the coefficient : $\sigma^2 =\sqrt{scale}= \sqrt{36.00}= 6.00$\\
+$\sigma_s^2 = \sqrt{Group Var}=\sqrt{66.5} = 8.15$, $\beta_1 = 6.0$ and $\beta_2 = (6.5+9.0) = 15.0 = coef.Treat(OLS regression)$\\
+Now, we admit the next results and we demonstrate it in the other parts of this report.\\
+Thanks to that values, we will compare our results with Python function results.\\
+We write out :
+\[Y = \begin{pmatrix} 3 & 10 \\ 6 & 25 \end{pmatrix}\]
+\[X = \begin{pmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}\]
+\[ \Sigma_y = \begin{pmatrix} \sigma^2+\sigma_s^2 & \sigma_s^2 & 0 & 0 \\ \sigma_s^2 & \sigma_s^2+\sigma^2 & 0 & 0 \\ 0 & 0 & \sigma^2+\sigma_s^2 & \sigma_s^2 \\ 0 & 0 & \sigma_s^2 & \sigma_s^2+\sigma^2 \end{pmatrix}\]
+\[|\Sigma_y| = 4\sigma_s^4\sigma^4+4\sigma_s^2\sigma^6+\sigma^8\]
+\\
+Where, $\Sigma_y$ is the variance-covaraince matrix, $|\Sigma_y|$ its determinant.\\
+So, we can maximize the integrated log-likelihood (REML purpose, detailed in next part).\\
+\textit{The code is available in the Github field (REML.py)}.\\
+Actually, we define a function calculates the integrate log-likelihood with two parameters : $\sigma^2$ and $\sigma_s^2$ (doesn't fixed). We know $\beta$ thanks to the linear regression and Y is represented by the \textit{Resp} values. Then, we research the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
+We obtain : $log(\int L(\beta, \Sigma_y)d\beta)=-6.05$, $\sigma_s^2 = 8.15$ and $\sigma^2=6.00$. \\
+There are the same results that the values calculating with linear regression.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,7 +226,7 @@ We recognize the solution of the Maximum Likelihood
 \[-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}\]
 And we have the REML approach (the bias) : \[- \frac{1}{2}log(|\trans{X} \Sigma_y^{-1}X|\]
 \end{exemple}
-In the first part of the document, we have seen an applied example. It shows us how the fee affects the mixt linear model.
+In the first part of the document, we have seen an applied example. It shows us how the fee affects the mixed linear model.
 \end{exemple}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,14 +237,12 @@ In the first part of the document, we have seen an applied example. It shows us 
 \label{sec:pour_aller_plus_loin_sur_ce_theme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-We can read this article ans this lesson to learn more about the REML and the linear regression model:
-\cite{SITE}, \cite{Teaching}
+We can read the article and the lesson to learn more about the REML and the linear regression model:
+\cite{Google}, \cite{Teaching}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{alpha}
 \bibliography{./biblio/references_all}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \end{document}
