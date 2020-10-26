@@ -6,6 +6,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import scipy as sp
 import numpy as np
+from scipy.optimize import minimize
 
 
 #%%
@@ -23,6 +24,7 @@ def loi_normale(x, mu, sigma):
 x = np.arange(-5,5,0.5)
 y1 = loi_normale(x, mu=1, sigma=1.5)
 y2 = loi_normale(x, mu=np.mean(x), sigma=1.5*((len(x)-1)/len(x)))
+fig = plt.figure()
 plt.plot(x,y1, label='N(1, 1.5) : unbiased')
 plt.plot(x, y2, label="N(-0.25,1.43) : biased")
 plt.axvline(np.mean(x), color='lightgreen', label="mean(x)", linestyle='--')
@@ -32,6 +34,7 @@ plt.ylabel('y')
 plt.legend(loc='best')
 plt.title("Gaussian biased and unbiased")
 plt.tight_layout()
+fig.savefig('Biased_normal_distri.pdf')
 
 #%%
 #############################
@@ -62,11 +65,13 @@ print(sig)
 z = []
 for sigma in range(int(np.floor(sig))):
     z.append(log_vraissemblance(data=data, sigma=sigma, mu=mu))
-    
+
+fig2 = plt.figure()
 plt.plot(x,z)
 plt.title("Log-likelihood with mu=mean(Resp) depending on sigma")
 plt.xlabel('Sigma')
 plt.ylabel('Log-likelihood')
+fig2.savefig('Log_likelihood.pdf')
 d = pd.DataFrame({'x' : x, 'z' : z})
 print(d)
 print("The log_likelihood's maximum coordinates are ",d.iloc[d['z'].idxmax()])
@@ -81,6 +86,7 @@ print(linear.summary())
 linear_reg = sm.OLS(df.Resp, df.Treat)
 linear_reg_fit = linear_reg.fit()
 print(linear_reg_fit.summary())
+# we have the value of beta2 = 15.5
 
 #We find the same coordinates of the log_likelihood when we use the linear regression
 #than when we use the graph
@@ -90,10 +96,45 @@ print(linear_reg_fit.summary())
 #%%
 #Linear mixed regression with our data
 #---------------------------------------
-mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = 'Ind')
+mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
 mixed_fit = mixed_random.fit()
 print(mixed_fit.summary())
 
 #We obtain the Fixed effects : Intercept & Treat
 #And the Random effects : Ind Var, the Residual : Scale
 #The log-likelihood has changed 
+
+
+#%%
+#Comparison xith our calculations
+#-------------------------------------
+def f(x):
+   sigma = x[0]
+   sigmas = x[1]
+   beta1 = 6.5
+   beta2 = 15.5
+   y11 = 3
+   y12 = 10
+   y21 = 6
+   y22 = 25
+   return(-(1/2)*np.log(4*sigmas**4*sigma**4 + 4*sigmas**2*sigma**6 + sigma**8) -(1/2)*np.log(4/((sigma**2)*(sigma**2+2*sigmas**2)))- (1/2)*(1/((sigma**2)*(sigma**2+2*sigmas**2)))*(((y11-beta1)**2)*(sigma**2+sigmas**2) - 2*(y11-beta1)*(y21-beta2)*(sigmas**2) + ((y21-beta2)**2)*(sigma**2+sigmas**2) + ((y12-beta1)**2)*(sigma**2+sigmas**2) - 2*(y12-beta1)*(y22-beta2)*(sigmas**2) + ((y22-beta2)**2)*(sigma**2+sigmas**2)))
+
+nb = []
+x=1.0
+y=1.0
+maxi = -10.0
+y_liste = np.arange(1, 11, 0.01)
+for x in range(1,11):
+    for y in y_liste:
+        nb = np.append(nb,f([x,y]))
+        if maxi < f([x,y]) :
+           compteur = x
+           compteur2 = y
+           maxi = f([x,y])
+    
+
+print("La valeur trouvée avec REML",f([6.00, 8.15]))
+print("La valeur trouvée à la main",maxi)
+print("sigma^2 correspondant",compteur, "sigma_s^2 correspondant",compteur2)
+
+#We find the same values for sigma and sigma_s with our calculations and the REML method
