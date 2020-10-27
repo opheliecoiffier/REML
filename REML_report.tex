@@ -98,7 +98,7 @@ With the linear regression, we have $-14.23$ (we can observe this in the Figure 
   linear_reg_fit.summary()
 \end{lstlisting}
 \begin{lstlisting}
-    mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
+    mixed_random = smf.mixedlm("Resp~Treat", df, groups = df['Ind'])
     mixed_fit = mixed_random.fit()
     mixed_fit.summary() 
 \end{lstlisting}
@@ -120,7 +120,7 @@ With the linear regression, we have $-14.23$ (we can observe this in the Figure 
     \end{center}
 \end{figure}
 Moreover, we notice the different value of the coefficient : $\sigma^2 =\sqrt{scale}= \sqrt{36.00}= 6.00$\\
-$\sigma_s^2 = \sqrt{Group Var}=\sqrt{66.5} = 8.15$, $\beta_1 = 6.0$ and $\beta_2 = (6.5+9.0) = 15.0 = coef.Treat(OLS regression)$\\
+$\sigma_s^2 = \sqrt{Group Var}=\sqrt{66.5} = 8.15$, $\beta_1 = 6.0$ and $\beta_2 = (6.5+9.0) = 15.5 = coef.Treat(OLS regression)$\\
 Now, we admit the next results and we demonstrate it in the other parts of this report.\\
 Thanks to that values, we will compare our results with Python function results.\\
 We write out :
@@ -198,8 +198,8 @@ We calculate the expected value of the variance estimator.
 \begin{equation*}
     \begin{split}
        \esp[\widehat{\sigma^2}]=\frac{1}{N}\esp[\trans{(Y-X\hat{\beta})}(Y-X\hat{\beta}]
-       &\textcolor{blue}{=} \frac{1}{N}\esp[\trans{Y}(I_d-A)(I_d-A)Y]\\
-       &= \frac{1}{N}\esp[\trans{Y}(I_d-A)Y]\\
+       &\textcolor{blue}{=} \frac{1}{N}\esp[\trans{Y}(I_k-A)(I_k-A)Y]\\
+       &= \frac{1}{N}\esp[\trans{Y}(I_k-A)Y]\\
        &= \frac{1}{N}\esp[\trans{Y}Y-\trans{Y}AY]\\
        &= \frac{1}{N}(\esp[\trans{Y}Y]-\esp[\trans{Y}AY])\\
        &= \frac{1}{N}(N\sigma^2+\trans{(X\beta)}(X\beta)-(k\sigma^2+\trans{(X\beta)}(X\beta))\\
@@ -249,6 +249,8 @@ We recognize the solution of the Maximum Likelihood
 \[-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}\]
 And we have the REML approach (the bias) : \[- \frac{1}{2}log(|\trans{X} \Sigma_y^{-1}X|\]
 \end{exemple}
+To conclude calculations, we derivate the new log-likelihood in relation to $\sigma^2$ and equalise at $0$. The solution is the unbiased estimator of the variance. There are the same calculations that we realise to find the maximum likelihood.\\
+\\
 In the first part of the document, we have seen an applied example. It shows us how the fee affects the mixed linear model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
