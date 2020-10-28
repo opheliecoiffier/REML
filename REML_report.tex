@@ -41,7 +41,7 @@ urlcolor=fb_col]{hyperref}
 \section{Introduction}
 \label{sec:introduction}
 This project speaks about the REstricted Maximum Likelihood (REML).\\
-When we calculate a variance estimator with the Maximum Likelihood, we must check if the estimator isn't biased. Actually, in many case, it is biased. The obtained value with the Maximum Likelihood method overestimate (or underestimate) the true value. That's why we need to calculate the variance estimator with REML method.\\
+When we calculate a variance estimator with the Maximum Likelihood, we must check if the estimator isn't biased. Actually, in many cases, it is biased. The obtained value with the Maximum Likelihood method overestimates (or underestimates) the true value. That's why we need to calculate the variance estimator with REML method.\\
 In the first part we will illustrate the issue and we will give an answer to the question :
 \begin{center}
     How the REML approach affects the linear mixed model ?
@@ -60,7 +60,7 @@ In the first part, we illustrate the variance problem with an example.
     \caption{Difference between biased Normal distribution and Unbiased Normal distribution.}
     \end{center}
 \end{figure}
-The Figure 1 shows us the difference between an unbiased Normal distribution and a biased Normal distribution. We see that the mean and the variance are different. On the Figure 1, we use the next data to know the mean of the second Gaussian. It's the estimation of the mean (we will demonstrate this in the next part).\\
+The Figure 1 shows us the difference between an unbiased Normal distribution and a biased Normal distribution. We see that the mean and the variance are different. On the Figure 1, we use the next data to know the mean of the second Gaussian. It's the estimation of the mean (we will demonstrate it in the next part).\\
 Now, we use real data.\\
 \begin{table}[h!]
         \centering
@@ -78,17 +78,17 @@ Now, we use real data.\\
         \end{tabular}
 \end{table}
 \textit{Ind} column is the group of the individual, \textit{Resp} column is the treatment response and \textit{Treat} column is an indicator (if the individual gets the treatment, he has 1 else he has 0).\\
-The model uses in linear regression is the impact of the treatment on the response.
+The model used in linear regression is the impact of the treatment on the response.
 \begin{equation*}
     Y_{Resp} = \mu +  \alpha X_{Treat} + \varepsilon
 \end{equation*}
 Where $\varepsilon$ is a noise following a centered, reduced Normal distribution ($\mathcal{N}(0, 1)$).\\
-The model uses in linear mixed effects is :
+The model used in linear mixed effects is :
 \begin{equation*}
     Y_{Resp} = \mu + \alpha X_{Treat}  + \beta X_{Ind} +\varepsilon
 \end{equation*}
 When we compare the log-likelihood with both methods, we don't obtain the same result.
-With the linear regression, we have $-14.23$ (we can observe this in the Figure 2, at the point $(8, -14.23)$) while the linear mixed regression (REML) we find $-7.89$.\\
+With the linear regression, we have $-14.23$ (we can observe this in the Figure 2, at the point $(8, -14.23)$) while we find $-7.89$ when we use the linear mixed effects regression (REML).\\
 \begin{remark}
 \textit{The code is available in the repository called REML but we notice lines we use to show the log-likelihood comparison}
 \end{remark}
@@ -132,24 +132,24 @@ We write out :
 Where, $\Sigma_y$ is the variance-covariance matrix, $|\Sigma_y|$ its determinant.\\
 So, we can maximize the integrated log-likelihood (REML purpose, detailed in next part).\\
 \textit{The code is available in the Github field (REML.py)}.\\
-Actually, we define a function calculated the integrate log-likelihood with two parameters : $\sigma^2$ and $\sigma_s^2$ (doesn't fixed). We know $\beta$ thanks to the linear regression and Y is represented by the \textit{Resp} values. The implemented function is :
+Actually, we define a function calculating the integrated log-likelihood with two parameters that aren't fixed : $\sigma^2$ and $\sigma_s^2$. We know $\beta$ thanks to the linear regression and Y is represented by the \textit{Resp} values. The implemented function is :
 \[ log(\int L(\beta, \Sigma_y)d\beta)=-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}-\frac{1}{2}log(|\trans{X}\Sigma_y^{-1}X|)\] 
-(This equality will be explained in the next part). Then, we research the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
+(This equality will be explained in the next part). Then, we search the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
 We obtain : $log(\int L(\beta, \Sigma_y)d\beta)=-6.05$, $\sigma_s^2 = 8.15$ and $\sigma^2=6.00$. \\
 There are the same results that the values calculating with linear regression.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The biased variance problem}
-When we calculate the maximum likelihood, we transform the likelihood to log-likelihood, then we derive and we equals to zero. And, obviously, we calculate the second derivative of the log-likelihood to check the sign. We need yo have a negative sign to have a maximum.\\
-\begin{exemple}
-To begin, we calculate the maximum likelihood in $1$ dimension.\\
+When we calculate the maximum likelihood, we transform the likelihood to log-likelihood, then we derive and we equate to zero. And, obviously, we calculate the second derivative of the log-likelihood to check the sign. We need a negative sign to have a maximum.\\
+\begin{example}
+First, we calculate the maximum likelihood in $1$ dimension.\\
 We take
 \[ y = (y_1, \cdots, y_N) \sim \mathcal{N}(\mu, \sigma^2) \]
 where $\mu$ is the mean and $\sigma^2$ is the variance.\\
 The likelihood is \[ L(y, \mu, \sigma^2) = \prod_{i=1}^N \frac{1}{\sqrt(2\pi \sigma^2)}e^{-\frac{(y_i-\mu)^2}{2\sigma^2}} \]
 The log-likelihood is \[l(y, \mu, \sigma^2) = -\frac{N}{2}ln(2\pi\sigma^2)-\sum_{i=1}^N\frac{(y_i-\mu)^2}{2\sigma^2}\]
-Now, we derive this function and equals to zero to find the maximum
+Now, we derive this function and equate to zero to find the maximum
 \begin{equation*}
     \begin{cases}
         \frac{\partial}{\partial \mu}\mid_{\hat{\mu}}l(y, \mu, \sigma^2) = 0 \\
@@ -158,10 +158,10 @@ Now, we derive this function and equals to zero to find the maximum
 \end{equation*}
 We assure that we have a negative second derivative.\\
 Finally, we find \[ (\hat{\mu}, \widehat{\sigma^2}) = (\frac{1}{N} \sum_{i=1}^N y_i, \frac{1}{N} \sum_{i=1}^N(y_i-\hat{\mu})^2)\]
-\end{exemple}
-Usually, we stop there, we have our answer but if we calculate the expected value of the variance estimator, we should be obtain the variance estimator (if it's an unbiased estimator).\\
-\begin{exemple}
-Return at the previous example. We need to know if the variance estimator is unbiased.\\
+\end{example}
+Usually, we stop there, we have our answer but if we calculate the expected value of the variance estimator, we should obtain the variance estimator (if it's an unbiased estimator).\\
+\begin{example}
+Return to the previous example. We need to know if the variance estimator is unbiased.\\
 We write out $\hat{y} = \frac{1}{N} \sum_{i=1}^N y_i = \hat{\mu}$
 \begin{equation*}
 \begin{split}
@@ -179,14 +179,14 @@ Let's return to our expected value
         &=  \frac{1}{N} \sum_{i=1}^N\esp[(y_i-\mu)^2]-\esp[(\hat{\mu}-\mu)^2]
     \end{split}
 \end{equation*}
-We need to find the variance of $(y_i-\mu)$ to continue our calculation.
+We need to find the variance of $(y_i-\mu)$ to carry on our calculation.
 \[\\Var(y_i-\mu) = \esp[(y_i-\mu)^2]-(\esp[(y_i-\mu)])^2 = \esp[(y_i-\mu)^2] = \sigma^2\]
 Finally, we have these equations
 \begin{equation*}
     \esp[\widehat{\sigma^2}] = \sigma^2 - \esp[(\hat{\mu}-\mu)^2] = \sigma^2 - \Var(\hat{\mu}-\mu) = \sigma^2 - \frac{1}{N^2}\Var(\sum_{i=1}^N y_i) = \sigma^2\frac{N-1}{N} \ne \sigma^2
 \end{equation*}
 The variance estimator is biased (underestimated the true variance because $\frac{N-1}{N}<1$).To remove the bias, we can change the variance estimator : $\widehat{\sigma^2} = \frac{1}{N-1}\sum_{i=1}^N (y_i-\hat{\mu})^2$.
-\end{exemple}
+\end{example}
 
 We also put these calculations in a higher dimension. In the real life, e.g our illustration, the dimension isn't $1$ but $k$ where $k>1$.\\
 The model writes out $Y=X \beta + \varepsilon$.
@@ -223,16 +223,16 @@ That's why, we use the REML method.
 \section{Solve the bias problem}
 The main issue is that we use an unknown estimator for the mean. The principle that we will use is : if the log-likelihood has any information about the mean, we can optimize it and find a unbiased variance estimator.\\
 \begin{itemize}
-    \item First step : integrate the likelihood in relation to $\mu$ and calculate the log of this integration. The parameter $\mu$ will be remove of the equation.
+    \item First step : integrate the likelihood in relation to $\mu$ and calculate the log of this integration. The parameter $\mu$ will be removed from the equation.
     \item Second step : use Taylor development in the log-likelihood to simplify the formula. 
     \item Third step : separate the formula in $2$ parts (the log-likelihood use in the maximum likelihood and the bias, the REML approach).
     \item Fourth step : finish previous calculations to find the unbiased estimator.
 \end{itemize}
 
-\begin{exemple} 
+\begin{example} 
 We continue with the previous example (the Normal distribution and $\beta \in \bbR^{2\times 2}$). The likelihood is
 \[L(\beta, \sigma_s^2, \sigma^2) = \frac{1}{\sqrt{2\pi |\Sigma_y|}}e^{-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}}\]
-where $\sigma_s^2$ is random variance effects, $\sigma^2$ is residual effects and $|\Sigma_y|$ is the variance-covariance matrix.\\
+where $\sigma_s^2$ represents standard deviation of random effects, $\sigma^2$  represents standard deviance of residual effects and $|\Sigma_y|$ is the variance-covariance matrix.\\
 First step :
 \[log(\int L(\beta, \Sigma_y)d\beta) = -\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)+log(\int e^{-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}} d\beta)\]
 We write out $f(\beta) = -\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}$ and we use the Taylor development formula : \\
@@ -250,8 +250,8 @@ So, the new log-likelihood is :
 We recognize the solution of the Maximum Likelihood
 \[-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}\]
 And we have the REML approach (the bias) : \[- \frac{1}{2}log(|\trans{X} \Sigma_y^{-1}X|\]
-\end{exemple}
-To conclude calculations, we derivate the new log-likelihood in relation to $\sigma^2$ and equalise at $0$. The solution is the unbiased estimator of the variance. There are the same calculations that we realise to find the maximum likelihood.\\
+\end{example}
+To conclude calculations, we derivate the new log-likelihood in relation to $\sigma^2$ and equate to $0$. The solution is the unbiased estimator of the variance. There are the same calculations that we realise to find the maximum likelihood.\\
 \\
 In the first part of the document, we have seen an applied example. It shows us how the fee affects the mixed linear model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
