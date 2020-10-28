@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import scipy as sp
 import numpy as np
 
-#%%
 #################################
 #Difference betwween ML and REML
 ###################################
@@ -34,7 +33,6 @@ plt.title("Gaussian biased and unbiased")
 plt.tight_layout()
 fig.savefig('Biased_normal_distri.pdf')
 
-#%%
 #############################
 #An example with real data
 #############################
@@ -45,7 +43,6 @@ df = []
 df = pd.DataFrame({'Treat' : [0, 1, 0, 1], 'Resp' : [10, 25, 3, 6], 'Ind' : [1, 1, 2, 2]})
 print(df)
 
-#%%
 #The maximum of the log-likelihood
 #-----------------------------------
 def log_vraissemblance(data, sigma, mu):
@@ -74,7 +71,6 @@ d = pd.DataFrame({'x' : x, 'z' : z})
 print(d)
 print("The log_likelihood's maximum coordinates are ",d.iloc[d['z'].idxmax()])
 
-#%%
 #Linear regression with our data
 #---------------------------------------
 linear = ols('Resp~Treat',data=df).fit()
@@ -91,7 +87,6 @@ print(linear_reg_fit.summary())
 #So we see that the variance is biased with linear regression
 #Besides, We have the fixed value for our alpha and mu : respectively 15.5 =(6.5+9) and 6.5
 
-#%%
 #Linear mixed regression with our data
 #---------------------------------------
 mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
@@ -102,8 +97,6 @@ print(mixed_fit.summary())
 #And the Random effects : Ind Var, the Residual : Scale
 #The log-likelihood has changed 
 
-
-#%%
 #Comparison with our calculations
 #-------------------------------------
 def f(x):

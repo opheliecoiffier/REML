@@ -132,7 +132,9 @@ We write out :
 Where, $\Sigma_y$ is the variance-covariance matrix, $|\Sigma_y|$ its determinant.\\
 So, we can maximize the integrated log-likelihood (REML purpose, detailed in next part).\\
 \textit{The code is available in the Github field (REML.py)}.\\
-Actually, we define a function calculates the integrate log-likelihood with two parameters : $\sigma^2$ and $\sigma_s^2$ (doesn't fixed). We know $\beta$ thanks to the linear regression and Y is represented by the \textit{Resp} values. Then, we research the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
+Actually, we define a function calculated the integrate log-likelihood with two parameters : $\sigma^2$ and $\sigma_s^2$ (doesn't fixed). We know $\beta$ thanks to the linear regression and Y is represented by the \textit{Resp} values. The implemented function is :
+\[ log(\int L(\beta, \Sigma_y)d\beta)=-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}-\frac{1}{2}log(|\trans{X}\Sigma_y^{-1}X|)\] 
+(This equality will be explained in the next part). Then, we research the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
 We obtain : $log(\int L(\beta, \Sigma_y)d\beta)=-6.05$, $\sigma_s^2 = 8.15$ and $\sigma^2=6.00$. \\
 There are the same results that the values calculating with linear regression.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
