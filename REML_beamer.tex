@@ -115,7 +115,7 @@ The expected value of the variance's biased estimator is not the variance estima
     \visible<1->{\mybold{Dimension : 1} the model writes out : \[ y = X\beta + \varepsilon\]
 	where y $\sim \mathcal{N}(\mu, \sigma^2)$ and $\varepsilon \sim \mathcal{N}(0, 1)$\\
 	\begin{equation*}
-	  \mathbb{E}[\sigma^2]=\frac{N-1}{N}\sigma^2 \ne \sigma^2
+	  \mathbb{E}[\widehat{\sigma^2}]=\frac{N-1}{N}\sigma^2 \ne \sigma^2
 	\end{equation*}}
 	\vspace{1cm}
 \end{column}
@@ -124,7 +124,7 @@ The expected value of the variance's biased estimator is not the variance estima
 	\visible<2->{\mybold{Dimension : k} the model writes out : \[ y = X\beta + \varepsilon\]
 	where y $\sim \mathcal{N}(X\beta, \sigma^2I_k)$ and $\varepsilon \sim \mathcal{N}(0, \sigma^2I_k)$\\
 	\begin{equation*}
-	  \mathbb{E}[\sigma^2]=\frac{N-k}{N}\sigma^2 \ne \sigma^2
+	  \mathbb{E}[\widehat{\sigma^2}]=\frac{N-k}{N}\sigma^2 \ne \sigma^2
 	\end{equation*}}
 \end{column}
 \end{columns}
@@ -149,7 +149,7 @@ We need to choose $\widehat{\sigma^2} = \frac{1}{N-k}(y-X\hat{\beta})^T(y-X\hat{
     The idea of the REML method is : \newline
     \newline
 	\only<2->{1) Integrate the likelihood in relation to $\mu$} \newline
-	\visible<3->{2) Calculate the log of the previous result} \newline
+	\visible<3->{2) Calculate the log of the previous result using Taylor's development to simplify calculations} \newline
 	\only<4->{3) Recognize the Maximum likelihood solution and the REML approach (the bias, the fee)} \newline
 	\visible<5->{4) Determine the variance estimator} \newline
 \end{frame}
@@ -205,7 +205,14 @@ linear_reg = sm.OLS(df.Resp,df.Treat)
 linear_reg_fit = linear_reg.fit()
 print(linear_reg_fit.summary())
 \end{lstlisting}
-\vspace{0.5cm}
+\vspace{1cm}
+Model : $Y_{Resp} = \mu+\beta X_{Treat} + \varepsilon$
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{An example : Codes}
+
 Then, we use mixed effects model with REML
 \begin{lstlisting}
 mixed_random = smf.mixedlm("Resp~Treat",df,
@@ -213,6 +220,8 @@ mixed_random = smf.mixedlm("Resp~Treat",df,
 mixed_fit = mixed_random.fit()
 print(mixed_fit.summary())
 \end{lstlisting}
+\vspace{1cm}
+Model : $Y_{Resp} = \mu+\beta X_{Treat} + \alpha X_{Ind} + \varepsilon$
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

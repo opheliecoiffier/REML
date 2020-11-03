@@ -80,12 +80,12 @@ Now, we use real data.\\
 \textit{Ind} column is the group of the individual, \textit{Resp} column is the treatment response and \textit{Treat} column is an indicator (if the individual gets the treatment, he has 1 else he has 0).\\
 The model used in linear regression is the impact of the treatment on the response.
 \begin{equation*}
-    Y_{Resp} = \mu +  \alpha X_{Treat} + \varepsilon
+    Y_{Resp} = \mu +  \beta X_{Treat} + \varepsilon
 \end{equation*}
 Where $\varepsilon$ is a noise following a centered, reduced Normal distribution ($\mathcal{N}(0, 1)$).\\
 The model used in linear mixed effects is :
 \begin{equation*}
-    Y_{Resp} = \mu + \alpha X_{Treat}  + \beta X_{Ind} +\varepsilon
+    Y_{Resp} = \mu + \beta X_{Treat}  + \alpha X_{Ind} +\varepsilon
 \end{equation*}
 When we compare the log-likelihood with both methods, we don't obtain the same result.
 With the linear regression, we have $-14.23$ (we can observe this in the Figure 2, at the point $(8, -14.23)$) while we find $-7.89$ when we use the linear mixed effects regression (REML).\\
