@@ -82,20 +82,31 @@ linear_reg_fit = linear_reg.fit()
 print(linear_reg_fit.summary())
 # we have the value of beta2 = 15.5
 
-#We find the same coordinates of the log_likelihood when we use the linear regression
-#than when we use the graph
+#We find the same coordinates of the log_likelihood when we use 
+#the linear regression and when we use the graph
 #So we see that the variance is biased with linear regression
-#Besides, We have the fixed value for our alpha and mu : respectively 15.5 =(6.5+9) and 6.5
+#Besides, We have the fixed value for our alpha and mu : 
+#respectively 15.5 =(6.5+9) and 6.5
 
 #Linear mixed regression with our data
 #---------------------------------------
-mixed_random = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
-mixed_fit = mixed_random.fit()
-print(mixed_fit.summary())
+#With the REML method
+mixed_random_REML = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
+mixed_fit_REML = mixed_random_REML.fit()
+print(mixed_fit_REML.summary())
 
-#We obtain the Fixed effects : Intercept & Treat
-#And the Random effects : Ind Var, the Residual : Scale
+#We obtain the Fixed effects : Intercept & Treat 
+#(same coefficients and standard error using OLS)
+#and the Random effects : Group Var, Residual : Scale
 #The log-likelihood has changed 
+
+#with the ML method
+mixed_random_ML = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
+mixed_fit_ML = mixed_random_ML.fit(reml=False)
+print(mixed_fit_ML.summary())
+#The fixed effects have the same coefficients
+#but the standard deviation for random effects
+#and residual standard deviation are differents, the log-likelihood too
 
 #Comparison with our calculations
 #-------------------------------------
@@ -131,8 +142,8 @@ for x in range(1,11):
            maxi = f([x,y])
     
 
-print("La valeur trouvée avec REML",f([6.00, 8.15]))
-print("La valeur trouvée à la main",maxi)
-print("sigma^2 correspondant",compteur, "sigma_s^2 correspondant",compteur2)
+print("The log-likelihood's value found with REML",f([6.00, 8.15]))
+print("The log-likelihood's value found with our handmade calculations",maxi)
+print("sigma^2 is equal to",compteur, "sigma_s^2 is equal to",compteur2)
 
 #We find the same values for sigma and sigma_s with our calculations and the REML method

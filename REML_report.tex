@@ -98,9 +98,14 @@ With the linear regression, we have $-14.23$ (we can observe this in the Figure 
   linear_reg_fit.summary()
 \end{lstlisting}
 \begin{lstlisting}
-    mixed_random = smf.mixedlm("Resp~Treat", df, groups = df['Ind'])
-    mixed_fit = mixed_random.fit()
-    mixed_fit.summary() 
+  mixed_random8REML = smf.mixedlm("Resp~Treat", df, groups = df['Ind'])
+  mixed_fit_REML = mixed_random_REML.fit()
+  print(mixed_fit_REML.summary()) 
+\end{lstlisting}
+\begin{lstlisting}
+  mixed_random_ML = smf.mixedlm("Resp ~ Treat", df, groups = df['Ind'])
+  mixed_fit_ML = mixed_random_ML.fit(reml=False)
+  print(mixed_fit_ML.summary()) 
 \end{lstlisting}
 \begin{figure}[H]
     \centering
@@ -116,11 +121,17 @@ With the linear regression, we have $-14.23$ (we can observe this in the Figure 
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.3]{./images/REML_regression.pdf}
-        \caption{The log-likelihood using REML regression.}
+        \caption{Values of the linear mixed model using REML method.}
     \end{center}
 \end{figure}
 Moreover, we notice the different value of the coefficient : $\sigma^2 =\sqrt{scale}= \sqrt{36.00}= 6.00$\\
-$\sigma_s^2 = \sqrt{Group Var}=\sqrt{66.5} = 8.15$, $\beta_1 = 6.0$ and $\beta_2 = (6.5+9.0) = 15.5 = coef.Treat(OLS regression)$\\
+$\sigma_s^2 = \sqrt{Group Var}=\sqrt{66.5} = 8.15$, $\beta_1 = 6.5$ and $\beta_2 = (6.5+9.0) = 15.5$\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{./images/OLS_regression2.pdf}
+        \caption{Values of the linear model using least squared method.}
+    \end{center}
+\end{figure}
 Now, we admit the next results and we demonstrate it in the other parts of this report.\\
 Thanks to that values, we will compare our results with Python function results.\\
 We write out :
@@ -136,7 +147,18 @@ Actually, we define a function calculating the integrated log-likelihood with tw
 \[ log(\int L(\beta, \Sigma_y)d\beta)=-\frac{1}{2}log(2\pi)-\frac{1}{2}log(|\Sigma_y|)-\frac{\trans{(Y-X\beta)}\Sigma_y^{-1}(Y-X\beta)}{2}-\frac{1}{2}log(|\trans{X}\Sigma_y^{-1}X|)\] 
 (This equality will be explained in the next part). Then, we search the maximum of this function. Our results are the value of $\sigma^2$ and $\sigma_s^2$ which maximize the function.\\
 We obtain : $log(\int L(\beta, \Sigma_y)d\beta)=-6.05$, $\sigma_s^2 = 8.15$ and $\sigma^2=6.00$. \\
-There are the same results that the values calculating with linear regression.
+These are the same results that the values calculating with linear regression.\\
+Now, we compare these results with the linear mixed effects results using the maximum likelihood. We will see the impact of the REML method on linear mixed model. 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.3]{./images/ML_mixed_effects.pdf}
+        \caption{Values of the linear mixed model using Maximum Likelihood method.}
+    \end{center}
+\end{figure}
+We have the same results for fixed coefficients but standard deviation for random effects and residual standard deviation are different : $\sigma^2 = \sqrt{18.0} = 4.24$ and $\sigma_s^2 = \sqrt{33.25}=5.77$.\\
+Finally, we find some differences. The REML method changes the linear mixed model by the standard deviation and (obviously) the log-likelihood. But it doesn't change the fixed coefficient.\\
+\newline
+In the next part, we will explain the issue and solve it with REML method.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

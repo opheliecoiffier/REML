@@ -184,7 +184,7 @@ We need to choose $\widehat{\sigma^2} = \frac{1}{N-k}(y-X\hat{\beta})^T(y-X\hat{
         \end{tabular}
     \end{table}
 \vspace{1cm}
-In \textit{Treat} column : $0$ means that the individual gets the treatment and $1$ means that it doesn't get the treatment.
+In \textit{Treat} column : $1$ means that the individual gets the treatment and $0$ means that it doesn't get the treatment.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -239,13 +239,14 @@ Model : $Y_{Resp} = \mu+\beta X_{Treat} + \alpha X_{Ind} + \varepsilon$
         \begin{bf} $\sigma^2$ \end{bf} &
         \begin{bf} $\sigma_s^2$ \end{bf} \\
         \hline
-        OLS linear regression &  -14.23 & 6.95 & -\\
-        REML mixed effects model  & -7.89 & 6.00 & 8.15 \\
+        OLS linear regression &  -14.23 & - & -\\
+        REML (mixed effects regression)  & -7.89 & 6.00 & 8.15 \\
+        ML (mixed effects regression) & -13.0 & 4.24 & 5.77 \\
         \hline
     \end{tabular}
 \end{table}
 \vspace{1cm}
-Both methods have the same value for the coefficients : $\beta_1=6.0$ and $\beta_2=15.5$
+Both methods and both regressions have the same value for the coefficients : $\beta_1=6.5$ and $\beta_2=15.5$
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -263,7 +264,9 @@ Both methods have the same value for the coefficients : $\beta_1=6.0$ and $\beta
 
 The REML method allows to estimate the variance without bias.\\
 \vspace{0.5cm}
-The log-likelihood is different because we have a second term with the REML method : a fee. But we have the same coefficients $\beta$.
+The log-likelihood is different because we have a second term with the REML method : a fee. But we have the same coefficients $\beta$.\\
+\vspace{0.5cm}
+So, the REML method changes the log-likelihood and standard deviations in linear mixed model.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
