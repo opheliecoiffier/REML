@@ -88,7 +88,7 @@ The model used in linear mixed effects is :
     Y_{Resp} = \mu + \beta X_{Treat}  + \alpha X_{Ind} +\varepsilon
 \end{equation*}
 When we compare the log-likelihood with both methods, we don't obtain the same result.
-With the linear regression, we have $-14.23$ (we can observe this in the Figure 2, at the point $(8, -14.23)$) while we find $-7.89$ when we use the linear mixed effects regression (REML).\\
+With the linear regression, we have $-14.23$ (we can observe this in the Figure 2, at the point $(8, -14.23)$) while we find $-7.89$ when we use the linear mixed effects regression (REML). The REML method has an higher log-likelihood than the maximum likelihood method. It's normal because the REML method has an additional term in its log-likelihood (calculations are demonstrated in next parts).  \\
 \begin{remark}
 \textit{The code is available in the repository called REML but we notice lines we use to show the log-likelihood comparison}
 \end{remark}
@@ -156,7 +156,7 @@ Now, we compare these results with the linear mixed effects results using the ma
     \end{center}
 \end{figure}
 We have the same results for fixed coefficients but standard deviation for random effects and residual standard deviation are different : $\sigma^2 = \sqrt{18.0} = 4.24$ and $\sigma_s^2 = \sqrt{33.25}=5.77$.\\
-Finally, we find some differences. The REML method changes the linear mixed model by the standard deviation and (obviously) the log-likelihood. But it doesn't change the fixed coefficient.\\
+Finally, we find some differences. The REML method changes the linear mixed model by the standard deviation and (obviously) the log-likelihood. But it doesn't change the fixed coefficient. We observe that the maximum likelihood method underestimates the true variance. But we must demonstrate it, to be sure.\\
 \newline
 In the next part, we will explain the issue and solve it with REML method.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
